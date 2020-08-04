@@ -1,0 +1,134 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('jooyin:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+ app.get('/', function(req, res){
+  res.sendFile(__dirname + '/insidegroup.ejs');
+ });
+
+ var user_count = 0;
+ //當新的使用者連接進來的時候
+ io.on('connection', function(socket){
+  //新user
+  socket.on('add user',function(msg){
+    socket.username = msg;
+    console.log("new user:"+msg+" logged.");
+    io.emit('add user',{
+      username: socket.username
+    });
+  });
+  //監聽新訊息事件
+  socket.on('chat message', function(msg){
+    console.log(socket.username+":"+msg);
+      //發佈新訊息
+    io.emit('chat message', {
+      username:socket.username,
+      msg:msg
+    });
+  });
+  //left
+  socket.on('disconnect',function(){
+    console.log(socket.username+" left.");
+    io.emit('user left',{
+      username:socket.username
+    });
+  });
+ });
+
+//app.get('/',function(request, response){ //我們要處理URL為 "/" 的HTTP GET請求
+//    response.end('你好！'); //作出回應
+//});
+//server.listen(8080,'140.119.163.23',function(){
+//    console.log('HTTP伺服器在 http://140.119.163.23:8080/ 上運行');
+//});
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

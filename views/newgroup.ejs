@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>JooyIn</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="stylesheets/main.css" />
+    <!-- Replace the value of the key parameter with your own API key. -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGQC622vftvPS4WTpyrufZTvh1PQKTydc"></script>
+  <style type="text/css">
+    #map {
+      height: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+       <!-- Header -->
+       <header id="header">
+         <a href="index" class="logo"><strong>JooyIn</strong></a>
+        <ul class="icons">
+          <li><a href="maingroup" class=""><span class="label">Home Page</span></a></li>
+          <li><a href="profile" class=""><span class="label">Personal Info.</span></a></li>
+          <% if(nickname && logined) {%>
+              <li><a href="/loginPage/signout" class="" ><span class="label">Log Out</span></a></li>
+          <% }else {%>
+                  <li><a href="loginPage" class=""><span class="label">Login</span></a></li>
+          <% } %>
+        </ul>
+      </header>
+      <br>
+      <h2>Launch New Group</h2>
+      <form method="post" action="/newgroup/creatgroup"  onSubmit="return Check()" name="send">
+        <div class="6u 12u$(xsmall)">
+          <input type="text" name="group_name" id="group_name" value="" placeholder="揪團名稱" />
+        </div>
+        <br>
+        <div class="3u 12u$(xsmall)">
+        </div>
+        <div class="row">
+          <p>Start Time</p>
+          <div class="3u 12u$(xsmall)">
+           <input type="date" id="bookdate" min="2020-07-01" max="2050-12-31" name="start_date" id="start_date" placeholder="YYYY-MM-DD">                                           
+         </div>
+         <div class="3u 12u$(xsmall)">                                           
+           <input type="time" id="booktime" name="start_time" id="start_time" placeholder="HH:MM-SS">
+         </div>
+       </div>
+       <br>
+       <div class="row">
+       <p>End Time</p>
+       <div class="3u 12u$(xsmall)">
+         <input type="date" id="bookdate" min="2020-07-01" max="2050-12-31" name="end_date" id="end_date" placeholder="YYYY-MM-DD">                                           
+       </div>
+       <div class="3u 12u$(xsmall)">                                           
+         <input type="time" id="booktime" name="end_time" id="end_time" placeholder="HH:MM-SS">    
+       </div>
+     </div>
+     <br>
+     <!-- Break -->
+     <div class="6u 12u$">
+      <div class="select-wrapper">
+        <select name="sports_category" id="sports_category">
+          <option value="">- Sport Type -</option>
+          <option value="健身">Workout</option>
+          <option value="籃球">Basketball</option>
+          <option value="排球">Volleyball</option>
+          <option value="游泳">Swimming</option>
+          <option value="慢跑">Jogging</option>
+          <option value="瑜珈">Yoga</option>
+          <option value="腳踏車">Biking</option>
+          <option value="其他">Others</option>
+        </select>
+      </div>
+    </div>
+    <br>   
+
+    <div class="3u 12u$(xsmall)">
+
+    <input type="text" name="group_people" id="group_people" value="" placeholder="The Number of Member" />
+    </div>
+    <br>   
+
+    <div class="3u 12u$(xsmall)">
+      <input type="text" name="group_location" id="group_location" value="" placeholder="Location" />
+    </div>     
+
+    <br>
+    <div class="6u$ 12u$(xsmall)">
+      <textarea type="text" name="detail" id="detail" value="" placeholder="Details"></textarea>
+    </div>
+    <br>
+    <!-- Break -->
+    <div id="map"></div>
+    <div class="row uniform">
+     <!-- Break -->
+     <div class="6u 12u$(small)">
+    <br>
+      <input type="checkbox" id="i_know" name="i_know">
+      <label for="i_know">I agree with JooyIn Rules</label>
+    </div>
+    <br>
+    <div class="6u$ 12u$(small)">
+      <input type="checkbox" id="human" name="human">
+      <label for="human">Not a Robot</label>
+    </div>
+    <!-- Break -->
+    <div class="12u$">
+      <ul class="actions">
+       <li><input type="reset" value="Reset" /></li>
+     </ul>
+   </div>
+ </div>
+</form>
+<button onclick="Check()">Launch</button>
+
+<hr>
+
+<footer id="footer" >
+
+  <h3 id="icons">Contact Us</h3>
+  <p id="icons">  Email: tingwl3@uci.edu</p>
+
+  <ul  class="icons" id="icons">
+    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>		
+  </ul>
+</footer>
+</div>
+</div>
+<!-- 側欄 -->
+<%- include sidebar.ejs %>
+<!-- Section -->
+<!-- Footer -->
+</div>
+</div>
+</div>
+</body>
+</html>
+<!-- Scripts -->
+<script src="javascripts/jquery.min.js"></script>
+<script src="javascripts/skel.min.js"></script>
+<script src="javascripts/util.js"></script>
+<script src="javascripts/main.js"></script>
+<script language="javascript">
+  function Check()  
+  {
+    if (document.send.start_date.value=="" || document.send.start_time.value=="")
+    {
+      alert('請輸入完整起始時間!');
+      return false;
+    }
+    if (document.send.end_date.value=="" || document.send.end_time.value=="")
+    {
+      alert('請輸入完整結束時間!');
+      return false;
+    }
+    
+    console.log(markers[0].position.lat());
+    console.log(markers[0].position.lng());
+      
+    $.ajax({
+        url: "/newgroup/creatgroup",
+        type: "POST",
+        dateType: 'html',
+        data: {  
+          formatted_address: results[0].formatted_address,
+          position_lat: markers[0].position.lat(),
+          position_lng: markers[0].position.lng(),
+          group_name: document.send.group_name.value,
+          start_date: document.send.start_date.value,
+          end_date: document.send.end_date.value,
+          start_time: document.send.start_time.value,
+          end_time: document.send.end_time.value,
+          sports_category: document.send.sports_category.value,
+          group_people: document.send.group_people.value,
+          group_location: document.send.group_location.value,
+          detail: document.send.detail.value,
+        },
+      });
+    window.location.href = "maingroup";
+    return true;   
+  }
+
+// In the following example, markers appear when the user clicks on the map.
+// Each marker is labeled with a single alphabetical character.
+var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var labelIndex = 0;
+var map, geocoder, popup;
+
+function initialize() {
+  var bangalore = { lat: 12.97, lng: 77.59 };
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    center: bangalore
+  });
+
+  var infoWindow = new google.maps.InfoWindow({map: map});
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+      };
+
+     infoWindow.setPosition(pos);
+     infoWindow.setContent('Location found.');
+     map.setCenter(pos);
+     }, function() {
+         handleLocationError(true, infoWindow, map.getCenter());
+     });
+  } else {
+          handleLocationError(false, infoWindow, map.getCenter());
+  }
+
+  var count = 0;
+    // This event listener calls addMarker() when the map is clicked.
+    google.maps.event.addListener(map, 'click', function(event) {
+      if(count == 0){
+      addMarker(event.latLng, map);
+      count++;
+      }
+    });
+}
+
+var markers = [];
+var results = [];
+// Adds a marker to the map.
+function addMarker(location, map) {
+  geocoder = new google.maps.Geocoder();
+  console.log(location.lat());
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+  var marker = new google.maps.Marker({
+    position: location,
+    label: labels[labelIndex++ % labels.length],
+    map: map,
+    draggable:true,
+    title:"Drag me!"
+  })
+  markers.push(marker);
+  // 將經緯度透過 Google map API 反查地址
+  geocoder.geocode({'latLng': location}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      if (results) {
+        showAddressOfResult(results[0], marker);
+      }
+    } else {
+      alert("Reverse Geocoding failed because: " + status);
+    }
+  });
+};
+// 設定 marker 的訊息泡泡
+function showAddressOfResult(result, marker) {
+    popup = new google.maps.InfoWindow();
+    // map.setCenter(marker.getPosition());
+    results.push(result);
+    var popupContent = '<b>ADDRESS: </b> ' + result.formatted_address;
+    popup.setContent(popupContent);
+    popup.open(map, marker);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>

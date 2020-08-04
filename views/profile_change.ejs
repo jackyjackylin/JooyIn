@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>JooyIn---EDIT PERSIONAL INFO.</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="stylesheets/main.css" />
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<!-- Header -->
+								<header id="header">
+									<a href="homePage/homePage.html" class="logo"><strong>JooyIn</strong></a>
+							                           
+                                    <ul class="icons">
+										<li><a href="maingroup" class=""><span class="label">Home Page</span></a></li>
+										<li><a href="profile" class=""><span class="label">Personal Info.</span></a></li>
+                                        </ul>
+								</header>	
+                            <br>  
+                                <h2>EDIT PERSIONAL INFO.</h2>
+								<form method="post" action="/profile_change/change" name="change_profile">
+                                    <div class="row">
+                                        <div class="6u 12u$(xsmall)">
+                                        	
+                                        	<div class="row">
+										       <p>HEIGHT</p>
+										        <div class="6u 12u$(xsmall)">
+										       	   <input type="text" name="height" id="height" value="<%= user_data[nickname].height %>" placeholder="身高（公分）" />
+										    	</div>                                         
+										    </div>   
+								            
+                                            <br>
+                                            
+                                            <div class="row">
+										       <p>WEIGHT</p>
+										        <div class="6u 12u$(xsmall)">
+										       	   	<input type="text" name="weight" id="weight" value="<%= user_data[nickname].weight %>" placeholder="體重（公斤）" />
+										    	</div>                                         
+										    </div>   
+
+										    <br>
+
+                                            <div class="row">
+										       <p>BIRTHDAY</p>
+										       <div class="6u 12u$(xsmall)">
+										         <input type="date"  name="birthday" id="birthday" placeholder="YYYY-MM-DD">
+										    	</div>                                         
+										    </div>                                  
+                                            
+                                            <br>                                         
+                                            
+                                            <div class="row">
+										       <p>LIVING PLACE</p>
+										       <div class="6u 12u$(xsmall)">
+								            		<input type="text" name="spot" id="spot" value="<%= user_data[nickname].living_place %>" placeholder="LIVING PLACE (i.g. Taipei, Taiwan）" />
+										    	</div>                                         
+										    </div>                                             
+                                            
+                                            <br>
+
+								            <div class="select-wrapper">
+                                                    <select name="like_sport1" id="like_sport1"  value="<%= user_data[nickname].like_sport1 %>" >
+                                                        <option value="None" id="尚未填寫1">FAVORITE SPORT I</option>
+                                                        <option value="Workout" id="健身1">Workout</option>
+                                                        <option value="Basketball" id="籃球1">Basketball</option>
+                                                        <option value="Volleyball" id="排球1">Volleyball</option>
+                                                        <option value="Swimming" id="游泳1">Swimming</option>
+                                                        <option value="Jogging" id="慢跑1">Jogging</option>
+                                                        <option value="Yoga" id="瑜珈1">Yoga</option>
+                                                        <option value="Biking" id="腳踏車1">Biking</option>
+                                                    </select>
+                                            </div>
+                                            
+                                            <br>
+                                            
+                                            <div class="select-wrapper">
+                                                    <select name="like_sport2" id="like_sport2">
+                                                        <option value="None" id="尚未填寫2">FAVORITE SPORT II</option>
+                                                        <option value="Workout" id="健身2">Workout</option>
+                                                        <option value="Basketball" id="籃球2">Basketball</option>
+                                                        <option value="Volleyball" id="排球2">Volleyball</option>
+                                                        <option value="Swimming" id="游泳2">Swimming</option>
+                                                        <option value="Jogging" id="慢跑2">Jogging</option>
+                                                        <option value="Yoga" id="瑜珈2">Yoga</option>
+                                                        <option value="Biking" id="腳踏車2">Biking</option>
+                                                    </select>
+                                            </div>
+											<script> 
+												var userdata = <%- JSON.stringify(user_data[nickname]) %>;
+												document.getElementById(userdata.favor_sport_1+"1").selected = "selected";
+												document.getElementById(userdata.favor_sport_2+"2").selected = "selected";
+											</script>
+
+                                            <br>
+											<textarea type="text" name="goal" id="goal" value="" placeholder="EXPECT & GOAL"  ><%= user_data[nickname].diary %></textarea>
+                                            
+								        </div>
+                                        <div class="6u 12u$(small)"> 
+                   
+                                            <img class="image" id ="userphoto" src=<%= "images/user_image/"+nickname+".jpg" %>>
+                                        
+                                            <br>
+                                            
+<!-- 												<ul class="actions" id="photo_manage">
+													<li><input type="file" name="uploadingFile" id="uploadingFile" accept="images/*" value="上傳新大頭貼" class="special" i /></li>
+													<li><input type="submit" value="刪除頭貼" class="button small" i /></li>
+												</ul> -->
+                                        </div>
+                                    </div>      
+								<!-- Break -->
+								    <div class="row uniform">
+                                    		
+								    <!-- Break -->
+								        <div class="12u$">
+								          <ul class="actions">
+								            <li><input type="submit" value="COMFIRM" class="special"/></li>
+								            <li><a href="profile" class="button special large">CANCEL</a></li>
+										  </ul>
+										</div>                                 
+                                    </div>
+								</form>
+			         </div>
+                </div>
+        </div>
+		<!-- Scripts -->
+			<script src="javascripts/jquery.min.js"></script>
+			<script src="javascripts/skel.min.js"></script>
+			<script src="javascripts/util.js"></script>
+			<script src="javascripts/main.js"></script>
+			<script>
+				function preview(input) {
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+						
+						reader.onload = function (e) {
+							$('.image').attr('src', e.target.result);
+						}
+						reader.readAsDataURL(input.files[0]);
+					}
+				}
+			
+				$("body").on("change", ".special", function (){
+					preview(this);
+				})
+			</script>
+
+	</body>
+</html>

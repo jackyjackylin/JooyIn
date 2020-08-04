@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<div id="sidebar">
+	<div class="inner">
+		<nav id="menu">
+			<header class="major">
+				<% if(nickname && logined) {%>
+					<h2>
+						<%= nickname%>
+					</h2>
+					<% }%>
+			</header>
+			<img class="image fit" src="images/user_image/<%= nickname %>.jpg" />
+			<div class="6u$ 12u$(small)">
+
+			<button class="button large" id="completetimes" onclick="location.href='profile'">ALREADY FINISHED <%= myGroup_data.length %> GAMES</button>
+			</div>
+			<br><br>
+			<div class="box" id="futuregroup" 
+				<% if(myGroup_data.length>0 ) { %>
+					onclick="location.href='insidegroup?group_id=<%= myGroup_data[0].group_id %>'"
+				<% } %>
+			>
+				<% if(myGroup_data.length>0 ) { %>
+					<p>Next Group：<%= myGroup_data[0].sports_category  %>--<%= myGroup_data[0].group_name  %></p>
+				<% } else { %>
+					<p>  Haven't participated in JooyIn><</p>
+				<% } %>
+			</div>
+			<div class="6u$ 12u$(small)">
+				<ul class="actions vertical small" id="logout">
+					<li><a href="/loginPage/signout" class="button special large">LOG OUT</a></li>
+				</ul>
+			</div>
+		</nav>
+		<section>
+			<header class="major">
+				<h2>Group Options</h2>
+			</header>
+			<div class="12u 12u$(small)">
+				<input type="checkbox" id="interest" name="interest">
+				<label for="interest">BASED ON WHAT I LIKE</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="all" name="all" onclick = "selectSport(this.id)" checked="true">
+				<label for="all">ALL</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="workout" name="workout" onclick = "selectSport(this.id)" checked="true">
+				<label for="workout">WORKOUT</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="basketball" name="basketball" onclick = "selectSport(this.id)" checked="true">
+				<label for="basketball">BASKETBALL</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="volleyball" name="volleyball" onclick = "selectSport(this.id)" checked="true">
+				<label for="volleyball">VOLLEYBALL</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="swim" name="swim" onclick = "selectSport(this.id)" checked="true">
+				<label for="swim">SWIMMING</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="jog" name="jog"  onclick = "selectSport(this.id)" checked="true">
+				<label for="jog">JOGGING</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="yoga" name="yoga" onclick = "selectSport(this.id)" checked="true">
+				<label for="yoga">YOGA</label>
+			</div>
+			<div class="6u 12u$(small)">
+				<input type="checkbox" id="bike" name="bike" onclick = "selectSport(this.id)" checked="true">
+				<label for="bike">BIKING</label>
+			</div>
+			<div class="3u 12u$(small)">
+				<input type="checkbox" id="other" name="other" onclick = "selectSport(this.id)" checked="true">
+				<label for="other">OTHER</label>
+			</div>
+		</section>
+		<section>
+			<header class="major">
+				<h2>The last three groups :</h2>
+			</header>
+			<div class="mini-posts" id="mini-posts">
+				<% for ( var i = 0  ; i < myGroup_data.length && i<3; i++) { %>
+					<article>
+						<a href="/insidegroup?group_id=<%= myGroup_data[i].id %>" class="image"><img src="images/<%= myGroup_data[i].sports_category%>.jpg" alt="" /></a>
+						<p><a href="/insidegroup?group_id=<%= myGroup_data[i].id %>"><%= myGroup_data[i].group_name  %></a></p>
+					</article>
+				<% } %>
+			</div>
+			
+		</section>
+	</div>
+</div>
+</html>
+
+<script language = "javascript">
+	var sportsChecked = [false, false,false,false,false,false,false,false];
+	var sportsName = ["workout", "basketball", "volleyball", "swim", "jog", "yoga", "bike", "other"];
+	var allIsSelected = true;
+	var myGroup_data = <%- JSON.stringify(myGroup_data) %>;
+
+	function selectSport(id) {
+		if( id!="all") {
+			var index = findSportsIndex(id); 
+			sportsChecked[index] = !sportsChecked[index];
+
+			if( allIsSelected ) {
+				allIsSelected = false;
+				document.getElementById("all").checked = allIsSelected;
+			}
+			else {
+				var flag = true;
+				for( var i=0; i<8; i++ ) {
+					if( !sportsChecked[i] ) {
+						flag = false;
+						break;
+					}
+				}
+				if( flag ) {
+					allIsSelected = true;
+					document.getElementById("all").checked = allIsSelected;
+				}
+			}
+		}
+
+		else {
+			var flag;
+			if( allIsSelected ) flag = false;
+			else flag = true;
+
+			allIsSelected = flag;
+			for( var i=0; i<8; i++ ) {
+				sportsChecked[i] = flag;
+				document.getElementById(sportsName[i]).checked = flag;
+			}
+		}
+
+		var str="";
+		for(var i=0; i<8; i++ ){
+			if(sportsChecked[i]) str += "T ";
+			else str += "F ";
+		}
+		console.log("sportsChecked = "+str);
+
+
+		newHtml = "";
+
+		var trueCount = 0;
+		for( var i=0; i<myGroup_data.length&&trueCount<3; i++ ) {
+			var index = findSportsIndex( sportName_ChineseToEnglish(myGroup_data[i].sports_category));
+			console.log("my group category index = "+index);
+			if( sportsChecked[index]==true ) {
+				trueCount++;
+				newHtml += '<article><a href="/insidegroup?group_id=' + myGroup_data[i].id + '" class="image">';
+				newHtml += '<img src="images/' + myGroup_data[i].sports_category + '.jpg" alt="" /></a>';
+				newHtml += '<p><a href="/insidegroup?group_id=' + myGroup_data[i].id + '">' + myGroup_data[i].group_name + '</a></p></article>';
+				
+				console.log(myGroup_data[i]);
+			}
+		}
+		if(newHtml=="") newHtml = "還沒有參加的團歐><";
+		document.getElementById("mini-posts").innerHTML = " "+newHtml;
+
+	}
+
+	function findSportsIndex(str) {
+		for( var i=0; i<8; i++ ) {
+			if( sportsName[i]==str ) return i;
+		} 
+		return -1;
+	}
+	function sportName_ChineseToEnglish(str) {
+		if(str=="籃球") return "basketball";
+		else if(str=="排球") return "volleyball";
+		else if(str=="健身") return "workout";
+		else if(str=="游泳") return "swim";
+		else if(str=="慢跑") return "jog";
+		else if(str=="瑜珈") return "yoga";
+		else if(str=="腳踏車") return "bike";
+		else if(str=="其他") return "other";
+	}
+</script>
+

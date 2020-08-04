@@ -1,0 +1,204 @@
+<html>
+
+<head>
+	<title>JooyIn</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Jooyin" />
+	<meta property="og:description" content="時間一到我們場上見" />
+	<link rel="stylesheet" href="stylesheets/main.css" />
+	<style type="text/css">
+		#map {
+			height: 300px;
+		}
+	</style>
+	<script>
+		function initMap() {
+			var uluru = { lat: <%= data[group_id].position_lat %>, lng: <%= data[group_id].position_lng %>};
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 16,
+				center: uluru
+			});
+			var marker = new google.maps.Marker({
+				position: uluru,
+				map: map
+			});
+		}
+	</script>
+</head>
+<body>
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+				<!-- Header -->
+				<header id="header">
+					<a href="homePage" class="logo"><strong>JooyIn</strong></a>
+					<ul class="icons">
+						<li><a href="maingroup" class=""><span class="label">Home Page</span></a></li>
+						<li><a href="profile" class=""><span class="label">Peraonal Info.</span></a></li>
+						<% if(nickname && logined) {%>
+								<li><a href="/loginPage/signout" class="" ><span class="label">Log Out</span></a></li>
+						<% }else {%>
+								<li><a href="loginPage" class=""><span class="label">Login</span></a></li>
+						<% } %>
+					</ul>
+				</header>
+				<br>
+				<!-- 揪團布條 -->
+				<div class="row ">
+					<!-- 運動性質 -->
+					<div class="2u 12u$(small)">
+						<div class="box" id="sportstyle">
+							<h2>
+								<%= data[group_id].sports_category  %>
+							</h2>
+						</div>
+					</div>
+					<!-- 運動地區 -->
+					<div class="4u 12u$(small)">
+						<div class="box" id="location">
+							<h2>
+								<%= data[group_id].group_location  %>
+							</h2>
+						</div>
+					</div>
+					<!-- 揪團名稱 -->
+					<div class="6u 12u$(small)">
+						<div class="box" id="groupname">
+							<h2>
+								<%= data[group_id].group_name  %>
+							</h2>
+						</div>
+					</div>
+				</div>
+				<!-- 揪團布條 -->
+				<div class="box">
+					<div class="row ">
+						<div class="8u 12u$(small)" id="memberphoto">
+							<h2 id="sportstyle">-JOIN MEMBERS-</h2>
+							<div class="row ">
+								<% for ( var i = 0  ; i <Jdata.length ; i++){ %>
+									<div class="2u 12u$(small)">
+										<a href="profile?username=<%= Jdata[i].user_name  %>" class=""><img width="95" src="images/user_image/<%= Jdata[i].user_name  %>.jpg" alt="" /></a>
+									</div>
+									<h3>
+										<%= Jdata[i].user_name  %>
+									</h3>
+									<% } %>
+							</div>
+						</div>
+						<div class="4u 12u$(small)">
+							<div class="row">
+								<div class="6u 12u$(small)">
+									<h3>
+										<%= data[group_id].group_name  %>
+									</h3>
+									<h3>
+										<%= data[group_id].start_datetime  %>
+									</h3>
+									<h3>
+										<%= data[group_id].end_datetime  %>
+									</h3>
+									<h3>
+										<%= data[group_id].formatted_address  %>
+									</h3>
+								</div>
+								<div class="6u 12u$(small)">
+									<ul class="actions">
+										<li><a href="/insidegroup/quit?group_id=<%= data[group_id].group_id %>" class="button">LEAVE GROUP</a></li>
+									</ul>
+								</div>
+							</div>
+							<div id="map"></div>
+						</div>
+					</div>
+				</div>
+				<!--box-->
+				<!--Chat Message Box-->
+				<div class="box">
+					<div class="row ">
+						<div class="12u$">
+							<div id="message_block" rows="6">
+								<ul id="messages"></ul>
+								<div>
+									<div class="input-group">
+										<input type="text" id="m" autocomplete="off" class="form-control" placeholder="輸入訊息...">
+										<br />
+										<span class="input-group-addon">
+										      	<button  id="send" class="create-acc">Send</button>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div><br>
+					</div>
+				</div>
+				<hr>
+				<footer id="footer">
+					<h3 id="icons">CONTACTS US</h3>
+					<p id="icons"> Email : tingwl3@uci.edu </p>
+					<ul class="icons" id="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+					</ul>
+				</footer>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+	<!-- Scripts -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGQC622vftvPS4WTpyrufZTvh1PQKTydc&callback=initMap">
+	<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="javascripts/socket.io.js"></script>
+	<script src="javascripts/jquery.min.js"></script>
+	<script src="javascripts/skel.min.js"></script>
+	<script src="javascripts/util.js"></script>
+	<script src="javascripts/main.js"></script>
+	<script>
+		var group_id = group_id;
+		var socket = io.connect('localhost:3000');
+		$(document).ready(function () {
+			var name = <%- JSON.stringify(nickname) %>;
+			if (name == "" || name == null) {
+				name = "guest";
+			}
+			//tell server
+			socket.emit("add user", name);
+			//監聽新訊息事件
+			socket.on('chat message', function (data) {
+				appendMessage(data.username + ":" + data.msg);
+			});
+			socket.on('add user', function (data) {
+				appendMessage(data.username + " Joined");
+			});
+			socket.on('user left', function (data) {
+				appendMessage(data.username + " Leaved");
+			});
+			$('#send').click(function () {
+				var text = $('#m').val();
+				socket.emit('chat message', text);
+				$('#m').val('');
+				return false;
+			});
+			$("#m").keydown(function (event) {
+				if (event.which == 13) {
+					$('#send').click();
+				}
+			});
+			function appendMessage(msg) {
+				$('#messages').append($('<li>').text(msg));
+				var message = document.getElementById("message_block");
+				message.scrollTop = message.scrollHeight;
+			}
+		});
+	</script>
+
+
+

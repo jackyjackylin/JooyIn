@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Custom Login Form</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" id="UI_CSS"/>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/theme.css" id="THEME_CSS"/>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+				<form class="login100-form validate-form" action="/signupPage" method="post" name="register">
+					<span class="login100-form-title p-b-55">
+						Register
+					</span>
+              <% if(error){ %><%= error%> <% } %>
+
+          <div class="register-switch">
+            <input type="radio" name="sex" value="F" size="30" id="sex_f" class="register-switch-input" checked>
+            <label for="sex_f" class="register-switch-label">Female</label>
+            <input type="radio" name="sex" value="M" id="sex_m" class="register-switch-input">
+            <label for="sex_m" class="register-switch-label">Male</label>
+          </div> 
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="email" name="email" placeholder="Email" id="mail">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-envelope"></span>
+						</span>
+					</div>
+
+          <div class="wrap-input100 validate-input m-b-16">
+            <input class="input100" type="text" name="nickname" placeholder="Nickname" id="name">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <span class="lnr lnr-user"></span>
+            </span>
+          </div>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" placeholder="Password" onchange="codeCheck(this);">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+					</div>
+
+          <div class="wrap-input100 validate-input m-b-16" data-validate = "Comfirm Password is required">
+            <input class="input100" type="password" name="password2" placeholder="Comfirm Password" onchange="codeAgain(this);">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <span class="lnr lnr-lock"></span>
+            </span>
+          </div>
+
+          <div id="codeCheck" style="color:#cc0000;visibility:hidden;">Password Comfirm Erroe ! Please Try Again !</div>
+
+
+					<div class="container-login100-form-btn p-t-25">
+            <input type="submit" class="login100-form-btn" value="Register"/>
+					</div>
+					</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="javascripts/Loginmain.js"></script>
+
+</body>
+</html>
+
+<script>
+    function codeCheck() {
+      var re = /[a-zA-Z0-9]{6,}/g;
+      var val = document.getElementById("password").value;
+      var result = re.exec(val);
+      console.log(result);
+      if(result == null || result != val || val.search(/[0-9]/g) == -1 || val.search(/[a-zA-Z]/g) == -1) {
+        alert("密碼輸入錯誤,必須6位數以上並包含英文和數字!!");
+        return false;
+      }
+      return true;
+    }
+
+    function codeAgain(inp) {
+      var pwd1 = document.getElementById("password");
+      var cdC1 = document.getElementById("codeCheck");
+      if(inp.value !== pwd1.value) {
+         cdC1.style.visibility = "visible";
+         password2.value = "";
+         inp.focus();
+      }
+      else{
+         cdC1.style.visibility="hidden";
+      }
+    }
+</script>

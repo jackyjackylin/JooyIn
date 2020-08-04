@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>JooyIn---PERSONAL INFO.</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="stylesheets/main.css" />
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<!-- Header -->
+								<header id="header">
+									<a href="homePage" class="logo"><strong>JooyIn</strong></a>
+                                    <ul class="icons">
+										<li><a href="maingroup" class=""><span class="label">Home Page</span></a></li>
+                                        <% if(nickname && logined) {%>
+                                            <li><a href="/loginPage/signout" class="" ><span class="label">LogOut</span></a></li>
+                                        <% }else {%>
+                                                <li><a href="loginPage" class=""><span class="label">Login</span></a></li>
+                                        <% } %>
+                                        </ul>
+								</header>	                       
+                            <br>  
+                            <div class="row ">
+                
+                                <div class="4u 12u$(small)"> 
+                                    
+                                    <img id ="userphoto" src=<%= "images/user_image/"+ username+".jpg" %> >
+                                 
+                                    <script>
+                                        var name = <%- JSON.stringify(username) %>; 
+                                        document.getElementById("userphoto").setAttribute("src", "images/user_image/"+name+".jpg");
+                                    </script>
+                                    
+                                    <h1 name="username" id="username"><%= username %></h1>    
+                                
+                                    <div class="box" id="userinfo">
+                                        <h3 name="times"> ALREADY FINISHED  <%= group_data.length %> GAMES</h3>    
+                                        <% if(group_data.length!=0 ) {  %>
+                                            
+                                            <h3 name="nextjooyin"><a href="insidegroup?group_id=<%= group_data[0].group_id %>">
+                                            NEXY GROUP：<%= group_data[0].group_name %>
+                                            </a></h3>                         
+                                        <% }  %>
+                                    </div>
+                                    
+                                    <% if(nickname==username) { %>
+                                        <ul class="actions">
+                                            <li><a href="profile_change" class="button special large">EDIT PERSIONAL INFO.</a></li>
+                                        </ul>
+                                    <% } %>
+                                    
+                                </div>
+                                <div class="4u 12u$(small)"> 
+                                    
+                                    <div class="box" id="bodyinfo">
+                                        <h3 name="gender" id="gender">GENDER：
+                                        <% if (  user_data[username].sex=='M' ) {  %>
+                                            MALE
+                                        <% } else if (user_data[username].sex=='F' ) { %>
+                                            FEMALE
+                                        <% } else { %>  
+                                            UNKNOWN><
+                                        <% } %> </h3>
+                                        <h3 name="age" id="age">AGE : </h3>
+                                        <script>
+                                            var today = new Date();
+                                            var _birth = <%- JSON.stringify(user_data[username])%>.birthday;
+                                            var _date = _birth.substr(8,2);
+                                            var _month = _birth.substr(5,2);
+                                            var _year = _birth.substr(0,4);
+                                            var birthDate = new Date(_month+"-"+_date+"-"+_year);
+
+                                            var age = today.getFullYear() - birthDate.getFullYear();
+                                            var m = today.getMonth() - birthDate.getMonth();
+                                            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+                                            {
+                                                age--;
+                                            }
+                                            document.getElementById("age").innerHTML += age;
+                                        </script>
+                                        <h3 name="height">HEIGHT：<%= user_data[username].height %></h3>
+                                        <h3 name="weight">WEIGHT：<%= user_data[username].weight %></h3>
+                                        <h3 name="location">LOCATION ：<%= user_data[username].living_place %></h3>
+                                        <h3 name="sports">FAVORITE SPORT：<%= user_data[username].favor_sport_1 %>、<%= user_data[username].favor_sport_2 %></h3>
+                                        <h3 name="goal">GOAL：<%= user_data[username].diary %></h3>
+                                    </div>    
+                                </div>  
+                                <div class="4u 12u$(small)"> 
+                                    
+                                    <div class="box" id="joingroupinfo">
+                                        <h2>JOINED GROUPS : </h2>                                        
+                                        <% if(group_data.length==0)  { %>
+                                            <h4>Haven't participated in JooyIn><</h4>
+                                        <% } %>
+                                        <% for(var i=0; i<group_data.length; i++ ) {%>                                        
+                                            <h3><a href="insidegroup?group_id=<%= group_data[i].group_id %>"><%= group_data[i].group_name %></a></h3>
+                                        <% } %>                                        
+                                    </div>
+                                    
+                                    <div class="box" id="savegroupinfo">
+                                        <h2>SAVED GROUPS : </h2>                                       
+                                        <% if(save_group_data.length==0)  { %>
+                                            <h4>Haven't save any group in JooyIn><</h4>
+                                        <% } %>                            
+                                        <% for(var i=0; i<save_group_data.length; i++ ) {%>
+                                            <h3><a href="insidegroup?group_id=<%= save_group_data[i].group_id %>"><%= save_group_data[i].group_name %></a></h3>
+                                        <% } %>             
+                                    </div>                                 
+                                </div>                          
+                           </div>                                      
+			         </div>
+                </div>
+        </div>
+		<!-- Scripts -->
+			<script src="javascripts/jquery.min.js"></script>
+			<script src="javascripts/skel.min.js"></script>
+			<script src="javascripts/util.js"></script>
+			<script src="javascripts/main.js"></script>
+	</body>
+</html>

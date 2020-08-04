@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>JooyIn</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="stylesheets/main.css" />
+
+</head>
+
+<body>
+	<!-- Wrapper -->
+	<div id="wrapper">
+		<div id="main">
+			<div class="inner">
+				<header id="header">
+					<a href="homePage" class="logo"><strong>JooyIn</strong></a>
+					<ul class="icons">
+						<li><a href="/maingroup" class=""><span class="label">Home Page</span></a></li>
+						<li><a href="profile" class=""><span class="label">Personal Info.</span></a></li>
+						<% if(nickname && logined) {%>
+							<li><a href="/loginPage/signout" class="" ><span class="label">LogOut</span></a></li>
+							<% }else {%>
+								<li><a href="loginPage" class=""><span class="label">Login</span></a></li>
+							<% } %>
+					</ul>
+				</header>
+				<!-- Banner -->
+				<% if(page==1) {%>
+					<section id="banner">
+
+						<div class="content">
+							<header>
+								<h1><br>Launch New Group</h1>
+								<p>Want to exercise but can't find a partner?<br><br> Click the plus sign to enter the sport, location and time, and get lucky right away!
+								</p>
+							</header>
+							<p></p>
+							<ul class="actions">
+								<li><a href="homePage" class="button big">Learn More</a></li>
+							</ul>
+						</div>
+						<span class="image object">
+							<a href="newgroup"><img src="images/add2.png" alt="" /></a>
+					<span>
+				</section>
+				<% } %>
+				<!-- 主頁 -->
+				<section>
+					<header class="major">
+						<h2>Join Team and Exercise Together !</h2>
+					</header>
+
+					<div class="posts">
+						<% for(var i=0; i < data.length; i++ ){%>
+							<article>
+								<a href="/insidegroup?group_id=<%= data[i].group_id %>" class="image"><img src="images/<%= data[i].sports_category%>.jpg" alt="" />
+								</a>
+								<h3><%= data[i].group_name %></h3>
+								<font size="2">Start Time :<%= data[i].start_datetime %></font><br/>
+								<font size="2">End Time :<%= data[i].end_datetime  %></font><br/>
+								<br/>
+								<ul class="actions">
+									<li><a href="/insidegroup/join?group_id=<%= data[i].group_id %>" class="button">Join!</a></li>
+									<li><a href="/insidegroup/save?group_id=<%= data[i].group_id %>" class="button">Save</a></li>
+								</ul>
+							</article>
+						<% } %>
+					</div>
+				</section>
+				<ul class="pagination">
+					<li><% if(page==1) { %>
+							<span class="button disabled">Prev</span>
+						<% } else { %>
+							<a href="/maingroup?page=<%= parseInt(page)-1 %>" class="button">Prev</a>
+						<% } %>
+					</li>
+						<% for ( var i = 1  ; i <datalength/6 + 1 ; i++){ %>
+							<% if(i == page) {%>
+								<li>
+									<a href="/maingroup?page=<%= i %>" class="page active">
+										<%= i %>
+									</a>
+								</li>
+							<% }else{ %>
+								<li>
+									<a href="/maingroup?page=<%= i %>" class="page">
+										<%= i %>
+									</a>
+								</li>
+							<% } %>
+						<% } %>
+					<li><% if(page>datalength/6) { %>
+							<span class="button disabled">Next</span>
+						<% } else { %>
+							<a href="/maingroup?page=<%= parseInt(page)+1 %>" class="button">Next</a>
+						<% } %>
+					</li>
+				</ul>         
+			</div>
+			<hr>
+			<footer id="footer">
+				<h3 id="icons">Contact Us</h3>
+				<p id="icons"> Email: tingwl3@uci.edu</p>
+				<ul class="icons" id="icons">
+					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+					<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+				</ul>
+			</footer>
+		</div>
+		<!-- 側欄 -->
+		<%- include sidebar.ejs %>
+	</div>
+	<script src="javascripts/jquery.min.js"></script>
+	<script src="javascripts/skel.min.js"></script>
+	<script src="javascripts/util.js"></script>
+	<script src="javascripts/main.js"></script>
+</body>
+
+</html>
