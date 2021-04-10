@@ -17,21 +17,6 @@ router.get('/', function(req, res, next) {
 		});
 	});
 });
-	// db.query('SELECT * FROM group_with_user, agroup WHERE group_with_user.user_name = ? and group_with_user.group_id = agroup.id', res.locals.nickname, function(err, rows) {
-
-	// 	if (err) {
-	// 		console.log(err);
-	// 	}
-	// 	var myGroup_data = rows;
-
-	// 	console.log(myGroup_data);
-
-
-	// 	res.render('newgroup', {
-	// 		title : 'Expresss',
-	// 		myGroup_data : myGroup_data
-	// 	});
-	// });
 
 
 router.post('/creatgroup', function(req, res, next) {
@@ -59,32 +44,4 @@ router.post('/creatgroup', function(req, res, next) {
 });
 
 module.exports = router;
-
-	// var qur = db.query('INSERT INTO agroup SET ?', sql, function(err, rows) {
-	// 	if (err) {
-	// 		console.log(err);
-	// 	}
-	// 	res.setHeader('Content-Type', 'application/json');
-	// 	res.redirect('/maingroup');
-
-	// 	db.query('SELECT MAX(id) as id FROM agroup', function(err, rows2) {
-	// 		if (err) {
-	// 			console.log(err);
-	// 		}
-
-	// 		var data = rows2;
-	// 		console.log(data);
-	// 		var sql2 = {
-	// 			user_name : req.session.nickname,
-	// 			group_id : data[0].id,
-	// 		};
-	// 		var qur = db.query('INSERT INTO group_with_user SET ?', sql2,
-	// 				function(err, rows3) {
-	// 					if (err) {
-	// 						console.log(err);
-	// 					}
-	// 				});
-	// 	});
-	// });
-	// // res.render('newgroup', { title: 'Expresss' });
 
