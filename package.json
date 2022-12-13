@@ -10,7 +10,7 @@
     "cookie-session": "^1.4.0",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "favicons": "^6.2.0",
     "firebase": "^7.17.1",
     "firebase-admin": "^9.0.0",
